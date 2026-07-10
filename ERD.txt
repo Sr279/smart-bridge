@@ -1,0 +1,157 @@
+
+
+
+
+Entity Relationship (ER) Diagram Description:
+  
+ **Personalized Networking Assistant:
+
+ **Introduction**
+
+The **Personalized Networking Assistant** database is designed to manage user profiles, event information, networking sessions, AI-generated conversation starters, Wikipedia fact verification, and system logs. The database follows normalization principles to reduce data redundancy, maintain data integrity, and improve scalability.
+
+Entities:-
+
+1. User_Profile:
+
+Primary Key: 'UserID'
+
+Attributes:
+
+* BioText
+* CurrentEventCache
+
+
+2. Event_Context:
+
+Primary Key:'EventID'
+
+Attributes:
+
+* EventDescription
+* AnalyzedThemes
+
+
+
+3. Networking_Session
+
+Primary Key: 'SessionID'
+
+Foreign Keys:
+
+* UserID → User_Profile
+* EventID → Event_Context
+
+Attributes: SessionTimestamp
+
+
+
+4. Generated_Starter
+
+Primary Key:'StarterID'
+
+Foreign Key: SessionID → Networking_Session
+
+Attributes:
+
+* StarterText
+* ContextPromptUsed
+
+
+
+5. Wikipedia_Fact_Check
+
+Primary Key: 'FactCheckID'
+
+Foreign Key: SessionID → Networking_Session
+
+Attributes:
+
+* VerifiedQueryText
+* VerificationStatus
+* WikipediaSourceURL
+
+
+
+6. Log_Entry
+
+Primary Key: 'LogID'
+
+Foreign Key:
+
+ SessionID → Networking_Session (Optional)
+
+Attributes:
+
+* ActionType
+* PayloadJSON
+* Timestamp
+
+
+
+Relationships:
+
+User_Profile → Networking_Session (1 : Many)
+
+One user can participate in multiple networking sessions.
+
+Event_Context → Networking_Session (1 : Many)
+
+One event context can be associated with multiple networking sessions.
+
+Networking_Session → Generated_Starter (1 : Many)
+
+Each networking session can generate multiple AI-generated conversation starters.
+
+Networking_Session → Wikipedia_Fact_Check (1 : Many)
+
+Each networking session can perform multiple Wikipedia fact verification requests.
+
+Networking_Session → Log_Entry (1 : Many)
+
+Each networking session can generate multiple log entries for auditing, debugging, and monitoring.
+
+
+
+Cardinality:
+
+| Parent Entity      | Child Entity         | Relationship |
+| ------------------ | -------------------- | ------------ |
+| User_Profile       | Networking_Session   | 1 : Many     |
+| Event_Context      | Networking_Session   | 1 : Many     |
+| Networking_Session | Generated_Starter    | 1 : Many     |
+| Networking_Session | Wikipedia_Fact_Check | 1 : Many     |
+| Networking_Session | Log_Entry            | 1 : Many     |
+
+
+
+Normalization:
+
+The database follows Third Normal Form (3NF) to ensure efficient data management.
+
+* Each table represents a single entity.
+* Every record is uniquely identified using a primary key.
+* Foreign keys maintain referential integrity.
+* Data redundancy is minimized.
+* AI-generated conversation starters, fact-check records, and system logs are stored separately for better scalability and maintainability.
+
+
+
+Use Case Support:
+
+The ER model supports the following functionalities:
+
+* Managing persistent user profiles.
+* Storing event details and extracted themes.
+* Recording networking sessions.
+* Saving AI-generated conversation starters.
+* Tracking Wikipedia fact verification results.
+* Maintaining detailed system logs for auditing, analytics, debugging, and performance monitoring.
+
+
+
+Conclusion:
+
+The proposed ER model provides a scalable, normalized, and efficient database design for the Personalized Networking Assistant. It ensures data integrity while supporting AI-powered networking features and system auditing. The schema is suitable for implementation using relational database management systems such as MySQL or PostgreSQL.
+
+
